@@ -11,13 +11,14 @@ echo 'Conectei' . PHP_EOL;
 
 $statement = $pdo->query('SELECT * FROM students;');
 
-$studentList = $statement->fetchAll(PDO::FETCH_CLASS, Student::class);
+$studentList = $statement->fetchAll(PDO::FETCH_ASSOC);
 
 foreach ($studentList as $studentData) {
-  echo "ID: {$studentData->id()}" . PHP_EOL;
-  echo "Nome: {$studentData->name()}" . PHP_EOL;
-  echo "Nascimento: {$studentData->birthDate()->format('d/m/Y')}" . PHP_EOL;
-  echo PHP_EOL;
+  $studentList[] = new Student(
+    $studentData['id'],
+    $studentData['name'],
+    new DateTimeImmutable($studentData['birth_date'])
+  );
 }
 
-var_dump($result);
+var_dump($studentList);
