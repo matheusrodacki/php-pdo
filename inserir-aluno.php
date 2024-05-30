@@ -11,14 +11,14 @@ echo 'Conectei' . PHP_EOL;
 
 $student = new Student(
   null,
-  'Matheus Rodacki',
-  new \DateTimeImmutable('1997-04-15')
+  'Kely Rodacki',
+  new \DateTimeImmutable('1994-05-02')
 );
 
-$sqlInsert = "INSERT INTO students (name, birth_date) VALUES (?,?);";
+$sqlInsert = "INSERT INTO students (name, birth_date) VALUES (:name,:birth_date);";
 $stmt = $pdo->prepare($sqlInsert);
-$stmt->bindValue(1, $student->name());
-$stmt->bindValue(2, $student->birthDate()->format('Y-m-d'));
+$stmt->bindValue(':name', $student->name());
+$stmt->bindValue(':birth_date', $student->birthDate()->format('Y-m-d'));
 
 
 if ($stmt->execute()) {
