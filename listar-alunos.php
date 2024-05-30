@@ -12,6 +12,7 @@ echo 'Conectei' . PHP_EOL;
 $statement = $pdo->query('SELECT * FROM students;');
 
 $studentList = $statement->fetchAll(PDO::FETCH_ASSOC);
+var_dump($studentList);
 
 foreach ($studentList as $studentData) {
   $studentList[] = new Student(
@@ -20,5 +21,3 @@ foreach ($studentList as $studentData) {
     new DateTimeImmutable($studentData['birth_date'])
   );
 }
-
-var_dump($studentList);

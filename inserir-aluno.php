@@ -11,15 +11,18 @@ echo 'Conectei' . PHP_EOL;
 
 $student = new Student(
   null,
-  'Vinicius Dias',
-  new \DateTimeImmutable('1997-10-15')
+  'Matheus Rodacki',
+  new \DateTimeImmutable('1997-04-15')
 );
 
 $sqlInsert = "INSERT INTO students (name, birth_date) VALUES (?,?);";
+$stmt = $pdo->prepare($sqlInsert);
+$stmt->bindValue(1, $student->name());
+$stmt->bindValue(2, $student->birthDate()->format('Y-m-d'));
 
-echo $sqlInsert . PHP_EOL;
 
-$result = $pdo->exec($sqlInsert);
-
-
-var_dump($result);
+if ($stmt->execute()) {
+  echo "Aluno incluído";
+} else {
+  echo "Aluno não incluído";
+}
