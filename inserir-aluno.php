@@ -15,7 +15,7 @@ $student = new Student(
   new \DateTimeImmutable('1997-10-15')
 );
 
-$sqlInsert = "INSERT INTO students (name, birth_date) VALUES ('{$student->name()}', '{$student->birthDate()->format('Y-m-d')}');";
+$sqlInsert = "INSERT INTO students (name, birth_date) VALUES (?,?);";
 
 echo $sqlInsert . PHP_EOL;
 
