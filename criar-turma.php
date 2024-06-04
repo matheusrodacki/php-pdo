@@ -13,8 +13,6 @@ $connection->beginTransaction();
 
 try {
 
-  $studentRepository->createTableStudents();
-
   $aStudent = new Student(
     null,
     'Nico Steppat',
@@ -35,4 +33,5 @@ try {
 } catch (\PDOException $e) {
   echo $e->getMessage();
   $connection->rollBack();
+  echo PHP_EOL . 'Rollback realizado';
 }
