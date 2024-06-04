@@ -63,15 +63,11 @@ class PdoStudentRepository implements StudentRepository
     $studentList = [];
 
     foreach ($studentDataList as $studentData) {
-      $student = new Student(
+      $studentList[] = new Student(
         $studentData['id'],
         $studentData['name'],
         new \DateTimeImmutable($studentData['birth_date'])
       );
-
-      $this->fillPhonesOf($student);
-
-      $studentList[] = $student;
     }
 
     return $studentList;
@@ -140,5 +136,40 @@ class PdoStudentRepository implements StudentRepository
     $stmt->bindValue(1, $student->id(), PDO::PARAM_INT);
 
     return $stmt->execute();
+  }
+
+  public function studentsWithPhones(): array
+  {
+    $sqlQuery = 'SELECT students.id, 
+                        students.name, 
+                        students.birth_date, 
+                        phones.id AS phone_id, phones.area_code, phones.number 
+                  FROM students 
+                  JOIN phones ON students.id = phones.student_id;';
+
+    $stmt = $this->connection->query($sqlQuery);
+    $studentDataList = $stmt->fetchAll();
+
+    $studentList = [];
+
+    foreach ($studentDataList as $studentData) {
+      if (!array_key_exists($studentData['id'], $studentList)) {
+        $studentList[$studentData['id']] = new Student(
+          $studentData['id'],
+          $studentData['name'],
+          new \DateTimeImmutable($studentData['birth_date'])
+        );
+      }
+
+      $phone = new Phone(
+        $studentData['phone_id'],
+        $studentData['area_code'],
+        $studentData['number']
+      );
+
+      $studentList[$studentData['id']]->addPhone($phone);
+    }
+
+    return $studentList;
   }
 }
