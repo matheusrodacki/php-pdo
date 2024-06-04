@@ -13,6 +13,8 @@ $connection->beginTransaction();
 
 try {
 
+  $studentRepository->createTableStudents();
+
   $aStudent = new Student(
     null,
     'Nico Steppat',

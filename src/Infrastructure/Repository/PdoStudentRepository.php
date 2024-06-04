@@ -29,7 +29,13 @@ class PdoStudentRepository implements StudentRepository
     CREATE TABLE IF NOT EXISTS students (
         id INTEGER PRIMARY KEY,
         name TEXT NOT NULL,
-        birth_date TEXT NOT NULL)");
+        birth_date TEXT NOT NULL);
+    CREATE TABLE IF NOT EXISTS phones (
+      id INTEGER PRIMARY KEY, 
+      area_code TEXT, 
+      number TEXT, 
+      student_id INTEGER, 
+      FOREIGN KEY(student_id) REFERENCES students(id));");
   }
 
   public function studentsBirthAt(\DateTimeInterface $birthDate): array
