@@ -23,6 +23,15 @@ class PdoStudentRepository implements StudentRepository
     return $this->hydrateStudentList($stmt);
   }
 
+  public function createTableStudents()
+  {
+    $this->connection->exec("
+    CREATE TABLE IF NOT EXISTS students (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        birth_date TEXT NOT NULL)");
+  }
+
   public function studentsBirthAt(\DateTimeInterface $birthDate): array
   {
     $sqlQuery = 'SELECT * FROM students WHERE birth_date = ?;';
