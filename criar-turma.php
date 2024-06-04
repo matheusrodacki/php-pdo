@@ -15,6 +15,8 @@ try {
 
   $studentRepository->createTableStudents();
 
+  //$studentRepository->insertPhones();
+
   $aStudent = new Student(
     null,
     'Nico Steppat',
